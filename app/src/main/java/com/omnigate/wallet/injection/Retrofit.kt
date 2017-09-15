@@ -2,8 +2,7 @@ package com.omnigate.wallet.injection
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.omnigate.wallet.data.OmnigateApi
-import com.omnigate.wallet.data.Repository
-import com.omnigate.wallet.models.User
+import com.omnigate.wallet.data.UserRepository
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -48,5 +47,5 @@ class NetModule(private val baseUrl: String = "https://dev.omnigate/api/v1/") {
 @Component(modules = arrayOf(NetModule::class))
 interface NetComponent {
 	/* Dagger does not accept abstract generics types i.e. Repository<T> */
-	fun inject(repository: Repository<User>)
+	fun inject(repository: UserRepository)
 }
