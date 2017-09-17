@@ -1,13 +1,3 @@
-# Built application files
-*.apk
-*.ap_
-
-# Files for the Dalvik VM
-*.dex
-
-# Java class files
-*.class
-
 # Generated files
 bin/
 gen/
@@ -50,3 +40,4 @@ Wallet\.iml
 \.idea/gradle\.xml
 
 \.idea/workspace\.xml
+/app/src/main/java/com/omnigate/wallet/models/ClientId.kt

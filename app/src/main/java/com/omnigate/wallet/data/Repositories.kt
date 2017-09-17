@@ -12,7 +12,7 @@ abstract class Repository<out T : Any> {
 	val cache: T? = null
 }
 
-object UserRepository {
+class UserRepository {
 	@Inject lateinit var api: OmnigateApi
 	init { OmnigateApp.netComponent.inject(this)	}
 }
