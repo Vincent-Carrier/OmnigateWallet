@@ -17,23 +17,24 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".screens.login.LoginActivity"
+            android:name=".screens.wallet.WalletActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="com.omnigate.wallet.action.POST_AUTH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
-        <activity android:name=".screens.wallet.WalletActivity">
+        <activity android:name=".screens.redirect.RedirectActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="https"
-                      android:host="dev.omnigate.com"
-                      android:path="/oauth2redirect"/>
+                <data android:scheme="com.omnigate.wallet"/>
             </intent-filter>
         </activity>
     </application>

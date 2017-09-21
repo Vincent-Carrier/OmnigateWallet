@@ -1,13 +1,13 @@
 package com.omnigate.wallet.data
 
-import retrofit2.http.POST
-import retrofit2.http.Query
+import com.omnigate.wallet.models.Wallet
+import io.reactivex.Single
+import retrofit2.http.GET
+import retrofit2.http.Header
 
 
 interface OmnigateApi {
 
-	@POST("auth/token")
-	fun requestAuthToken(@Query("grant_type") grantType: String = "password",
-	                     @Query("username") userName: String,
-	                     @Query("password") password: String)
+	@GET("wallet")
+	fun requestWallet(@Header("Authorization") accessToken: String) : Single<Wallet>
 }
