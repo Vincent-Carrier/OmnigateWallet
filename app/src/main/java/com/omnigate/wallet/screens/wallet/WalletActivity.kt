@@ -1,39 +1,54 @@
 package com.omnigate.wallet.screens.wallet
 
-import android.app.PendingIntent
-import android.content.Intent
-import android.net.Uri
+import android.annotation.SuppressLint
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
+import com.airbnb.epoxy.EpoxyAttribute
+import com.airbnb.epoxy.EpoxyModel
+import com.airbnb.epoxy.EpoxyModelClass
 import com.omnigate.wallet.R
-import net.openid.appauth.AuthorizationRequest.Builder
-import net.openid.appauth.AuthorizationRequest.RESPONSE_TYPE_TOKEN
-import net.openid.appauth.AuthorizationService
-import net.openid.appauth.AuthorizationServiceConfiguration
+import com.omnigate.wallet.data.AuthManager
+import com.omnigate.wallet.models.Balance
+import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.android.synthetic.main.activity_wallet.*
+import kotlinx.android.synthetic.main.balance_list_item.view.*
 import org.jetbrains.anko.AnkoLogger
-
-
+import org.jetbrains.anko.info
+import org.jetbrains.anko.warn
 
 class WalletActivity : AppCompatActivity(), AnkoLogger {
+
+	private val vm by lazy { ViewModelProviders.of(this).get(WalletViewModel::class.java) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_wallet)
-		startLogin()
+		balancesRecyclerView.adapter = vm.adapter()
 	}
 
-	private fun startLogin() {
-		val config = AuthorizationServiceConfiguration(
-				Uri.parse("https://dev.omnigate.com/auth/authorize"),
-				Uri.parse("https://dev.omnigate.com/auth/token")
-		)
-		val clientId = "31630427"
-		val redirectUri = Uri.parse("com.omnigate.wallet:/oauth2callback")
-		val request = Builder(config, clientId, RESPONSE_TYPE_TOKEN, redirectUri).build()
+	override fun onStart() {
+		super.onStart()
+		AuthManager.startLoginIfNeeded(this)
+		vm.requestWallet()
+				.subscribeBy(
+						onSuccess = { info("requestWallet(): $it") },
+						onError = { warn(it.localizedMessage) }
+				)
+	}
+}
 
-		val postAuthIntent = Intent("com.omnigate.wallet.action.POST_AUTH")
-		val pendingIntent = PendingIntent.getActivity(this, request.hashCode(),
-				postAuthIntent, 0)
-		AuthorizationService(this).performAuthorizationRequest(request, pendingIntent)
+@EpoxyModelClass(layout = R.layout.balance_list_item)
+abstract class BalanceModel(balance: Balance) : EpoxyModel<ConstraintLayout>() {
+
+	@EpoxyAttribute var available: String = balance.available
+	@EpoxyAttribute var currencyCode: String = balance.currencyCode
+
+	@SuppressLint("SetTextI18n")
+	override fun bind(view: ConstraintLayout) {
+		with(view) {
+			balanceTextView.text = available + currencyCode
+		}
 	}
 }

@@ -2,6 +2,10 @@ package com.omnigate.wallet.models
 
 import com.google.gson.annotations.SerializedName
 
+data class ApiKeyResponse(
+		@SerializedName("apikey") val apiKey: String
+)
+
 data class Wallet(
 		@SerializedName("waid") val walletId: String,
 		@SerializedName("balances") val balances: List<Balance>
