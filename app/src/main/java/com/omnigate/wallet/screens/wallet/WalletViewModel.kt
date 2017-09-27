@@ -6,8 +6,10 @@ import com.omnigate.wallet.data.WalletManager
 import com.omnigate.wallet.models.Balance
 import com.omnigate.wallet.models.Wallet
 import io.reactivex.Single
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
-class WalletViewModel : ViewModel() {
+class WalletViewModel : ViewModel(), AnkoLogger {
 
 
 	private val controller = BalancesController()
@@ -15,10 +17,12 @@ class WalletViewModel : ViewModel() {
 	internal fun adapter() = controller.adapter
 
 	internal fun requestWallet(): Single<Wallet> {
-			return WalletManager.requestWallet()
-					.doOnSuccess {
-						controller.setData(it.balances)
-					}
+		return WalletManager.requestWallet()
+				.doOnSuccess {
+					controller.setData(it.balances)
+					controller.requestModelBuild()
+					info(it.balances)
+				}
 	}
 
 	class BalancesController() : TypedEpoxyController<List<Balance>>() {

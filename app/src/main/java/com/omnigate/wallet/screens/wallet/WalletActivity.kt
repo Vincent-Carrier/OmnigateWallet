@@ -11,12 +11,11 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.omnigate.wallet.R
 import com.omnigate.wallet.data.AuthManager
 import com.omnigate.wallet.models.Balance
+import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_wallet.*
 import kotlinx.android.synthetic.main.balance_list_item.view.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-import org.jetbrains.anko.warn
 
 class WalletActivity : AppCompatActivity(), AnkoLogger {
 
@@ -30,12 +29,11 @@ class WalletActivity : AppCompatActivity(), AnkoLogger {
 
 	override fun onStart() {
 		super.onStart()
-		AuthManager.startLoginIfNeeded(this)
-		vm.requestWallet()
-				.subscribeBy(
-						onSuccess = { info("requestWallet(): $it") },
-						onError = { warn(it.localizedMessage) }
-				)
+		if (!AuthManager.isLoggedIn()) AuthManager.startLogin(this)
+		else vm.requestWallet()
+				.bindToLifecycle(this)
+				.subscribeBy()
+
 	}
 }
 
@@ -43,12 +41,12 @@ class WalletActivity : AppCompatActivity(), AnkoLogger {
 abstract class BalanceModel(balance: Balance) : EpoxyModel<ConstraintLayout>() {
 
 	@EpoxyAttribute var available: String = balance.available
-	@EpoxyAttribute var currencyCode: String = balance.currencyCode
+	@EpoxyAttribute var currencyCode: String = balance.currencyCode.substringBefore(".")
 
 	@SuppressLint("SetTextI18n")
 	override fun bind(view: ConstraintLayout) {
 		with(view) {
-			balanceTextView.text = available + currencyCode
+			balanceTextView.text = "$available $currencyCode"
 		}
 	}
 }
