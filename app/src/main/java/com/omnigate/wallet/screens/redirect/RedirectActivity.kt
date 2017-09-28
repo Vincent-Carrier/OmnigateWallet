@@ -18,7 +18,7 @@ class RedirectActivity : AppCompatActivity(), AnkoLogger {
 		/* getQueryParameter doesn't work properly with #, so we have to replace it */
 		AuthManager.accessToken = "Bearer " + Uri.parse(intent.data.toString().replace("#", "?")).getQueryParameter("access_token")
 
-		AuthManager.executeApiKeyRequest()
+		AuthManager.fetchApiKey()
 
 		startActivity<WalletActivity>()
 	}

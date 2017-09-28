@@ -1,0 +1,63 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "2:2847683649065011165",
+      "lastPropertyId": "6:5246248080620473766",
+      "name": "Balance",
+      "properties": [
+        {
+          "id": "1:1122495273289315906",
+          "name": "id"
+        },
+        {
+          "id": "2:8957688803617726348",
+          "indexId": "1:1534878989387506991",
+          "name": "currencyCode"
+        },
+        {
+          "id": "3:7578591594867974247",
+          "name": "currencyName"
+        },
+        {
+          "id": "4:1302799135336150100",
+          "name": "available"
+        },
+        {
+          "id": "5:6189462471214482924",
+          "name": "held"
+        },
+        {
+          "id": "6:5246248080620473766",
+          "name": "total"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:7764257252371736687",
+  "lastIndexId": "2:7439651729554623934",
+  "lastRelationId": "1:4949188303482307512",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [
+    6574320314053346884,
+    7764257252371736687
+  ],
+  "retiredIndexUids": [
+    7439651729554623934
+  ],
+  "retiredPropertyUids": [
+    5655705157908952286,
+    2934551973907959783,
+    7913059972909730971,
+    8438412025984752480
+  ],
+  "retiredRelationUids": [
+    4949188303482307512
+  ],
+  "version": 1
+}

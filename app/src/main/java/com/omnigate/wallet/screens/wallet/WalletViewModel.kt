@@ -7,7 +7,6 @@ import com.omnigate.wallet.models.Balance
 import com.omnigate.wallet.models.Wallet
 import io.reactivex.Single
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 
 class WalletViewModel : ViewModel(), AnkoLogger {
 
@@ -20,15 +19,17 @@ class WalletViewModel : ViewModel(), AnkoLogger {
 		return WalletManager.requestWallet()
 				.doOnSuccess {
 					controller.setData(it.balances)
-					controller.requestModelBuild()
-					info(it.balances)
 				}
 	}
 
 	class BalancesController() : TypedEpoxyController<List<Balance>>() {
 		override fun buildModels(balances: List<Balance>) {
-			for (balance in balances) {
-				BalanceModel_(balance).id(balance.currencyCode).addTo(this)
+			balances.forEach {
+				balanceView {
+					id(it.currencyCode)
+					available(it.available)
+					currencyCode(it.currencyCode)
+				}
 			}
 		}
 	}

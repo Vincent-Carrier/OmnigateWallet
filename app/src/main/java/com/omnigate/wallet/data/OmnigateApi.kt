@@ -5,7 +5,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.logging.HttpLoggingInterceptor.Level.HEADERS
+import okhttp3.logging.HttpLoggingInterceptor.Level.BASIC
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
@@ -34,9 +34,7 @@ internal object OmnigateApi {
 	private fun okHttpClient(): OkHttpClient {
 		// Create a trust manager that does not validate certificate chains
 		val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
-			override fun getAcceptedIssuers(): Array<X509Certificate> {
-				return arrayOf<X509Certificate>()
-			}
+			override fun getAcceptedIssuers() = arrayOf<X509Certificate>()
 
 			@SuppressLint("TrustAllX509TrustManager")
 			override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) {}
@@ -51,7 +49,7 @@ internal object OmnigateApi {
 		return OkHttpClient.Builder()
 				.sslSocketFactory(sslContext.socketFactory, trustAllCerts[0] as X509TrustManager)
 				.hostnameVerifier { _, _ -> true }
-				.addInterceptor(HttpLoggingInterceptor().apply { level = HEADERS })
+				.addInterceptor(HttpLoggingInterceptor().apply { level = BASIC })
 /*				.addInterceptor({
 					val request = it.request().newBuilder().addHeader("api_key", API_KEY).build()
 					it.proceed(request)

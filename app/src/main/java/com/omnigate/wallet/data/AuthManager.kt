@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.omnigate.wallet.App
 import com.omnigate.wallet.models.ApiKeyRequest
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationRequest.Builder
@@ -11,23 +12,30 @@ import net.openid.appauth.AuthorizationService
 import net.openid.appauth.AuthorizationServiceConfiguration
 import org.jetbrains.anko.AnkoLogger
 
-/* These classes are responsible for abstracting access to different data sources i.e.
-* cache, network and disk storage */
 object AuthManager : AnkoLogger {
 	var accessToken = ""
 
 	var apiKey = ""
 
-	fun isLoggedIn() = accessToken.isNotEmpty()
+	fun isLoggedIn() = apiKey.isNotEmpty()
 
-	fun executeApiKeyRequest() {
-		apiKey = api().requestApiKey(accessToken, ApiKeyRequest(
-				"Development", listOf("profile-admin")))
-				.blockingGet().apiKey
+	/* If the key isn't stored on disk, get it from the network and store it */
+	fun fetchApiKey() {
+		val key = retrieveApiKey()
+		apiKey = if (key.isNotEmpty()) key else api().requestApiKey(
+				accessToken, ApiKeyRequest("Development", listOf("profile-admin")))
+				.retry(3)
+				.blockingGet().apiKey // blockingGet usually isn't best practice, but it works well here
+		storeApiKey(apiKey)
 	}
 
-	private fun storeApiKey() {
+	// TODO: Encrypt the API key
+	private fun storeApiKey(apiKey: String) {
+		App.sharedPrefs().edit().putString("apikey", apiKey).apply()
+	}
 
+	private fun retrieveApiKey(): String {
+		return App.sharedPrefs().getString("apikey", "")
 	}
 
 	private fun api() = OmnigateApi.api

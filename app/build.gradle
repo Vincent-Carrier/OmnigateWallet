@@ -2,11 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'realm-android'
+apply plugin: 'io.objectbox'
 
 kapt {
     correctErrorTypes = true
-    generateStubs = true
 }
 
 project.android.buildTypes.all { buildType ->
@@ -63,15 +62,19 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$android_lifecycle_version"
     annotationProcessor "android.arch.lifecycle:compiler:$android_lifecycle_version"
 
-    implementation 'com.google.dagger:dagger:2.11'
+/*    implementation 'com.google.dagger:dagger:2.11'
     kapt 'com.google.dagger:dagger-compiler:2.11'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    provided 'org.glassfish:javax.annotation:10.0-b28'*/
 
     implementation 'io.reactivex.rxjava2:rxjava:2.1.2'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.1.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+
+    implementation "io.objectbox:objectbox-android:$objectboxVersion"
+    implementation "io.objectbox:objectbox-kotlin:$objectboxVersion"
+    implementation 'io.objectbox:objectbox-rxjava:0.9.8-RC4'
 
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.okhttp3:okhttp:3.8.1'
@@ -81,8 +84,8 @@ dependencies {
 
     implementation 'net.openid:appauth:0.2.0'
 
-    implementation 'com.airbnb.android:epoxy:2.4.0'
-    kapt 'com.airbnb.android:epoxy-processor:2.4.0'
+    implementation 'com.airbnb.android:epoxy:2.5.0'
+    kapt 'com.airbnb.android:epoxy-processor:2.5.0'
 
 /*    implementation 'com.github.bumptech.glide:glide:4.1.1'
     kapt 'com.github.bumptech.glide:compiler:4.1.1'
@@ -96,7 +99,7 @@ dependencies {
     implementation 'nz.bradcampbell:paperparcel-kotlin:2.0.2'
     kapt 'nz.bradcampbell:paperparcel-compiler:2.0.2'*/
 
-    testImplementation 'org.mockito:mockito-core:2.8.47'
+/*    testImplementation 'org.mockito:mockito-core:2.8.47'
     testImplementation "com.nhaarman:mockito-kotlin-kt1.1:1.5.0"
     testImplementation 'org.amshove.kluent:kluent-android:1.28'
     testImplementation 'junit:junit:4.12'
@@ -114,5 +117,5 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-intents:2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
+    androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'*/
 }
