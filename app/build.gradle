@@ -58,13 +58,18 @@ dependencies {
     implementation "com.android.support:design:$android_support_version"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+
+    implementation 'com.airbnb.android:epoxy:2.5.0'
+    kapt 'com.airbnb.android:epoxy-processor:2.5.0'
+
     implementation "android.arch.lifecycle:runtime:$android_lifecycle_version"
     implementation "android.arch.lifecycle:extensions:$android_lifecycle_version"
     annotationProcessor "android.arch.lifecycle:compiler:$android_lifecycle_version"
 
-/*    implementation 'com.google.dagger:dagger:2.11'
-    kapt 'com.google.dagger:dagger-compiler:2.11'
-    provided 'org.glassfish:javax.annotation:10.0-b28'*/
+/*    provided 'org.glassfish:javax.annotation:10.0-b28'
+    implementation 'com.google.dagger:dagger:2.11'
+    kapt 'com.google.dagger:dagger-compiler:2.11'*/
 
     implementation 'io.reactivex.rxjava2:rxjava:2.1.2'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -84,8 +89,6 @@ dependencies {
 
     implementation 'net.openid:appauth:0.2.0'
 
-    implementation 'com.airbnb.android:epoxy:2.5.0'
-    kapt 'com.airbnb.android:epoxy-processor:2.5.0'
 
 /*    implementation 'com.github.bumptech.glide:glide:4.1.1'
     kapt 'com.github.bumptech.glide:compiler:4.1.1'

@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.EpoxyModelClass
@@ -34,6 +35,12 @@ class WalletActivity : AppCompatActivity(), AnkoLogger {
 				.subscribeBy()
 		else AuthManager.startLogin(this)
 
+	}
+
+	override fun onCreateOptionsMenu(menu: Menu): Boolean {
+		menuInflater.inflate(R.menu.main, menu)
+//		onPrepareOptionsMenu(menu)
+		return true
 	}
 }
 
