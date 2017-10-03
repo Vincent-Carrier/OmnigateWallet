@@ -5,7 +5,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.logging.HttpLoggingInterceptor.Level.BASIC
+import okhttp3.logging.HttpLoggingInterceptor.Level.BODY
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
@@ -16,7 +16,7 @@ import javax.net.ssl.X509TrustManager
 
 internal object Retrofit {
 
-	internal val api = omnigateApi(retrofit(okHttpClient()))
+	internal val omnigateApi = omnigateApi(retrofit(okHttpClient()))
 
 	private fun omnigateApi(retrofit: Retrofit): OmnigateApi {
 		return retrofit.create<OmnigateApi>(OmnigateApi::class.java)
@@ -49,7 +49,7 @@ internal object Retrofit {
 		return OkHttpClient.Builder()
 				.sslSocketFactory(sslContext.socketFactory, trustAllCerts[0] as X509TrustManager)
 				.hostnameVerifier { _, _ -> true }
-				.addInterceptor(HttpLoggingInterceptor().apply { level = BASIC })
+				.addInterceptor(HttpLoggingInterceptor().apply { level = BODY })
 /*				.addInterceptor({
 					val request = it.request().newBuilder().addHeader("api_key", API_KEY).build()
 					it.proceed(request)

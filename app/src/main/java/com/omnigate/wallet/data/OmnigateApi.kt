@@ -15,4 +15,7 @@ interface OmnigateApi {
 
 	@GET("wallet")
 	fun requestWallet(@Header("X-APIKey") apiKey: String) : Single<Wallet>
+
+	@GET("walletlist")
+	fun requestWallets(@Header("X-APIKey") apiKey: String) : Single<List<Wallet>>
 }

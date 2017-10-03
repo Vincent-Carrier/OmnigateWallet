@@ -16,6 +16,7 @@ object AuthManager : AnkoLogger {
 	var accessToken = ""
 
 	var apiKey = ""
+		private set
 
 	init {
 		fetchApiKey()
@@ -25,8 +26,8 @@ object AuthManager : AnkoLogger {
 
 	/* If the key isn't stored on disk, get it from the network and store it */
 	fun fetchApiKey() {
-		val key = retrieveApiKey()
-		apiKey = if (key.isNotEmpty()) key else api().requestApiKey(
+		val storedKey = retrieveApiKey()
+		apiKey = if (storedKey.isNotEmpty()) storedKey else api().requestApiKey(
 				accessToken, ApiKeyRequest("Development", listOf("profile-admin")))
 				.retry(3)
 				.blockingGet().apiKey // blockingGet usually isn't best practice, but it works well here
@@ -42,7 +43,7 @@ object AuthManager : AnkoLogger {
 		return App.sharedPrefs().getString("apikey", "")
 	}
 
-	private fun api() = Retrofit.api
+	private fun api() = Retrofit.omnigateApi
 
 	fun startLogin(context: Context) {
 		val config = AuthorizationServiceConfiguration(

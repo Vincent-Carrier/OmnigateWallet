@@ -10,3 +10,7 @@ data class ApiKeyRequest(@SerializedName("description") val description: String,
 data class ApiKeyResponse(
 		@SerializedName("apikey") val apiKey: String
 )
+
+data class WalletListResponse(
+		@SerializedName("walletlist") val walletlist: List<Wallet>
+)

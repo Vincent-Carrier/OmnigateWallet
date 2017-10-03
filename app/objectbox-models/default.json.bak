@@ -35,28 +35,6 @@
         }
       ],
       "relations": []
-    },
-    {
-      "id": "3:7764257252371736687",
-      "lastPropertyId": "2:8438412025984752480",
-      "name": "Wallet",
-      "properties": [
-        {
-          "id": "1:7913059972909730971",
-          "name": "id"
-        },
-        {
-          "id": "2:8438412025984752480",
-          "indexId": "2:7439651729554623934",
-          "name": "walletId"
-        }
-      ],
-      "relations": [
-        {
-          "id": "1:4949188303482307512",
-          "name": "balances"
-        }
-      ]
     }
   ],
   "lastEntityId": "3:7764257252371736687",
@@ -65,17 +43,21 @@
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
-  "newUidPool": [
-    4888434917013615568
-  ],
   "retiredEntityUids": [
-    6574320314053346884
+    6574320314053346884,
+    7764257252371736687
   ],
-  "retiredIndexUids": [],
+  "retiredIndexUids": [
+    7439651729554623934
+  ],
   "retiredPropertyUids": [
     5655705157908952286,
-    2934551973907959783
+    2934551973907959783,
+    7913059972909730971,
+    8438412025984752480
   ],
-  "retiredRelationUids": [],
+  "retiredRelationUids": [
+    4949188303482307512
+  ],
   "version": 1
 }

@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.EpoxyModelClass
@@ -16,6 +15,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_wallet.*
 import kotlinx.android.synthetic.main.balance_list_item.view.*
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.toast
 
 class WalletActivity : AppCompatActivity(), AnkoLogger {
 
@@ -30,17 +30,13 @@ class WalletActivity : AppCompatActivity(), AnkoLogger {
 	override fun onStart() {
 		super.onStart()
 		if (AuthManager.isLoggedIn())
-			vm.requestWallet()
+			vm.getWallet()
 				.bindToLifecycle(this)
-				.subscribeBy()
+				.subscribeBy(
+						onSuccess = { if (it.balances.isEmpty()) toast("Your wallet is empty!") }
+				)
 		else AuthManager.startLogin(this)
 
-	}
-
-	override fun onCreateOptionsMenu(menu: Menu): Boolean {
-		menuInflater.inflate(R.menu.main, menu)
-//		onPrepareOptionsMenu(menu)
-		return true
 	}
 }
 

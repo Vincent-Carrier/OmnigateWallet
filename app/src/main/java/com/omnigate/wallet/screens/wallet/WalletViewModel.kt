@@ -2,11 +2,12 @@ package com.omnigate.wallet.screens.wallet
 
 import android.arch.lifecycle.ViewModel
 import com.airbnb.epoxy.TypedEpoxyController
-import com.omnigate.wallet.data.WalletRepository
+import com.omnigate.wallet.data.WalletsRepository
 import com.omnigate.wallet.models.Balance
 import com.omnigate.wallet.models.Wallet
 import io.reactivex.Single
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 class WalletViewModel : ViewModel(), AnkoLogger {
 
@@ -15,9 +16,11 @@ class WalletViewModel : ViewModel(), AnkoLogger {
 
 	internal fun adapter() = controller.adapter
 
-	internal fun requestWallet(): Single<Wallet> {
-		return WalletRepository.requestWallet()
+	internal fun getWallet(): Single<Wallet> {
+		return WalletsRepository.getWallets()
+				.map { it.first() }
 				.doOnSuccess {
+					info(it)
 					controller.setData(it.balances)
 				}
 	}

@@ -35,11 +35,32 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:7708677778890833673",
+      "lastPropertyId": "2:3744124394082638949",
+      "name": "Wallet",
+      "properties": [
+        {
+          "id": "1:1353852378420170462",
+          "name": "id"
+        },
+        {
+          "id": "2:3744124394082638949",
+          "name": "walletId"
+        }
+      ],
+      "relations": [
+        {
+          "id": "2:6039451431300283338",
+          "name": "balances"
+        }
+      ]
     }
   ],
-  "lastEntityId": "3:7764257252371736687",
+  "lastEntityId": "4:7708677778890833673",
   "lastIndexId": "2:7439651729554623934",
-  "lastRelationId": "1:4949188303482307512",
+  "lastRelationId": "2:6039451431300283338",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
