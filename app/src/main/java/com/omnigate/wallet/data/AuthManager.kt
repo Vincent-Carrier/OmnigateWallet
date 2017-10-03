@@ -17,6 +17,10 @@ object AuthManager : AnkoLogger {
 
 	var apiKey = ""
 
+	init {
+		fetchApiKey()
+	}
+
 	fun isLoggedIn() = apiKey.isNotEmpty()
 
 	/* If the key isn't stored on disk, get it from the network and store it */
@@ -38,7 +42,7 @@ object AuthManager : AnkoLogger {
 		return App.sharedPrefs().getString("apikey", "")
 	}
 
-	private fun api() = OmnigateApi.api
+	private fun api() = Retrofit.api
 
 	fun startLogin(context: Context) {
 		val config = AuthorizationServiceConfiguration(

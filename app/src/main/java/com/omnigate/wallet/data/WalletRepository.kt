@@ -5,12 +5,12 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import org.jetbrains.anko.AnkoLogger
 
-object WalletManager : AnkoLogger {
-	private fun api() = OmnigateApi.api
-
+object WalletRepository : AnkoLogger {
 	fun requestWallet(): Single<Wallet> {
 		return api().requestWallet(AuthManager.apiKey)
 				.observeOn(mainThread())
 				.retry(3)
 	}
+
+	private fun api() = Retrofit.api
 }

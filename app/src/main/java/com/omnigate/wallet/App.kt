@@ -12,9 +12,8 @@ class App : Application(), AnkoLogger {
 
 	companion object {
 		private var app: App? = null
-		val PREFS = "prefs"
-		fun sharedPrefs(): SharedPreferences = app!!.getSharedPreferences(PREFS, MODE_PRIVATE)
-		fun boxStore() = (app!! as App).boxStore
+		fun sharedPrefs(): SharedPreferences = app!!.getSharedPreferences("prefs", MODE_PRIVATE)
+		fun boxStore() = app!!.boxStore
 	}
 
 	init {

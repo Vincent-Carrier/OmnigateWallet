@@ -106,7 +106,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/builds" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/check-manifest" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes-jar" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-runtime-classes" />
@@ -127,7 +126,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/unitTestConfig" />
       <excludeFolder url="file://$MODULE_DIR$/build/kotlin" />
       <excludeFolder url="file://$MODULE_DIR$/build/objectbox-build-config.json" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
@@ -159,6 +157,7 @@
     <orderEntry type="library" name="support-fragment-26.1.0" level="project" />
     <orderEntry type="library" name="circleimageview-2.1.0" level="project" />
     <orderEntry type="library" name="anko-commons-0.10.1" level="project" />
+    <orderEntry type="library" name="objectbox-rxjava-0.9.8" level="project" />
     <orderEntry type="library" name="common-1.0.0" level="project" />
     <orderEntry type="library" name="1_common-1.0.0" level="project" />
     <orderEntry type="library" name="design-26.1.0" level="project" />
@@ -169,7 +168,6 @@
     <orderEntry type="library" name="jsr305-3.0.2" level="project" />
     <orderEntry type="library" name="recyclerview-v7-26.1.0" level="project" />
     <orderEntry type="library" name="objectbox-java-1.0.1" level="project" />
-    <orderEntry type="library" name="objectbox-rxjava-0.9.8-RC4" level="project" />
     <orderEntry type="library" name="support-vector-drawable-26.1.0" level="project" />
     <orderEntry type="library" name="kotlinx-coroutines-core-0.15" level="project" />
     <orderEntry type="library" name="support-core-utils-26.1.0" level="project" />

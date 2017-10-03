@@ -5,9 +5,6 @@ import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import io.objectbox.annotation.Index
 
-data class ApiKeyResponse(
-		@SerializedName("apikey") val apiKey: String
-)
 
 data class Wallet(
 		@SerializedName("waid") val walletId: String,
