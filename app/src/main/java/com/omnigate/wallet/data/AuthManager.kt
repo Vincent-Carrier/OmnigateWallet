@@ -5,7 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.omnigate.wallet.App
-import com.omnigate.wallet.models.ApiKeyRequest
+import com.omnigate.wallet.defaultSchedulers
+import io.reactivex.Single
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationRequest.Builder
 import net.openid.appauth.AuthorizationService
@@ -13,37 +14,13 @@ import net.openid.appauth.AuthorizationServiceConfiguration
 import org.jetbrains.anko.AnkoLogger
 
 object AuthManager : AnkoLogger {
-	var accessToken = ""
 
-	var apiKey = ""
-		private set
-
-	init {
-		fetchApiKey()
+	fun isLoggedIn(): Boolean {
+		val apiKey = retrieveApiKey()
+		val isLoggedIn = apiKey.isNotEmpty()
+		if (isLoggedIn) Retrofit.createOmnigateApi(apiKey)
+		return isLoggedIn
 	}
-
-	fun isLoggedIn() = apiKey.isNotEmpty()
-
-	/* If the key isn't stored on disk, get it from the network and store it */
-	fun fetchApiKey() {
-		val storedKey = retrieveApiKey()
-		apiKey = if (storedKey.isNotEmpty()) storedKey else api().requestApiKey(
-				accessToken, ApiKeyRequest("Development", listOf("profile-admin")))
-				.retry(3)
-				.blockingGet().apiKey // blockingGet usually isn't best practice, but it works well here
-		storeApiKey(apiKey)
-	}
-
-	// TODO: Encrypt the API key
-	private fun storeApiKey(apiKey: String) {
-		App.sharedPrefs().edit().putString("apikey", apiKey).apply()
-	}
-
-	private fun retrieveApiKey(): String {
-		return App.sharedPrefs().getString("apikey", "")
-	}
-
-	private fun api() = Retrofit.omnigateApi
 
 	fun startLogin(context: Context) {
 		val config = AuthorizationServiceConfiguration(
@@ -59,5 +36,26 @@ object AuthManager : AnkoLogger {
 				postAuthIntent, 0)
 		AuthorizationService(context).performAuthorizationRequest(request, pendingIntent)
 	}
+
+	fun getApiKeyFromNetwork(accessToken: String): Single<String> {
+		return api().requestApiKey(accessToken)
+				.defaultSchedulers()
+				.map { it.apiKey }
+				.doOnSuccess {
+					storeApiKey(it)
+					Retrofit.createOmnigateApi(it)
+				}
+	}
+
+	// TODO: Encrypt the API key
+	private fun storeApiKey(apiKey: String) {
+		App.sharedPrefs().edit().putString("apikey", apiKey).apply()
+	}
+
+	private fun retrieveApiKey(): String {
+		return App.sharedPrefs().getString("apikey", "")
+	}
+
+	private fun api() = Retrofit.authApi
 }
 

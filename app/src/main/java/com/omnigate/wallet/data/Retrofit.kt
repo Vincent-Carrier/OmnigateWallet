@@ -16,7 +16,17 @@ import javax.net.ssl.X509TrustManager
 
 internal object Retrofit {
 
-	internal val omnigateApi = omnigateApi(retrofit(okHttpClient()))
+	internal val authApi = authApi(retrofit(okHttpClient()))
+
+	internal lateinit var omnigateApi: OmnigateApi
+
+	internal fun createOmnigateApi(apiKey: String) {
+		omnigateApi = omnigateApi(retrofit(okHttpClient(apiKey)))
+	}
+
+	private fun authApi(retrofit: Retrofit): AuthApi {
+		return retrofit.create<AuthApi>(AuthApi::class.java)
+	}
 
 	private fun omnigateApi(retrofit: Retrofit): OmnigateApi {
 		return retrofit.create<OmnigateApi>(OmnigateApi::class.java)
@@ -31,7 +41,7 @@ internal object Retrofit {
 				.build()
 	}
 
-	private fun okHttpClient(): OkHttpClient {
+	private fun okHttpClient(apiKey: String = ""): OkHttpClient {
 		// Create a trust manager that does not validate certificate chains
 		val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
 			override fun getAcceptedIssuers() = arrayOf<X509Certificate>()
@@ -46,13 +56,16 @@ internal object Retrofit {
 // Install the all-trusting trust manager
 		val sslContext = SSLContext.getInstance("SSL")
 		sslContext.init(null, trustAllCerts, SecureRandom())
-		return OkHttpClient.Builder()
+		val builder = OkHttpClient.Builder()
 				.sslSocketFactory(sslContext.socketFactory, trustAllCerts[0] as X509TrustManager)
 				.hostnameVerifier { _, _ -> true }
 				.addInterceptor(HttpLoggingInterceptor().apply { level = BODY })
-/*				.addInterceptor({
-					val request = it.request().newBuilder().addHeader("api_key", API_KEY).build()
+
+		if (apiKey.isNotEmpty())
+				builder.addInterceptor({
+					val request = it.request().newBuilder().addHeader("X-APIKey", apiKey).build()
 					it.proceed(request)
-				})*/.build()
+				})
+		return builder.build()
 	}
 }

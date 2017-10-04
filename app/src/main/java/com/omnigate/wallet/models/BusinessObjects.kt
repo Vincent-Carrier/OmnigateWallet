@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
 import io.objectbox.annotation.Index
-import io.objectbox.relation.ToOne
 
 @Entity
 data class Wallet(
@@ -23,4 +22,4 @@ data class Balance(
 		@SerializedName("available") val available: String,
 		@SerializedName("held") val held: String,
 		@SerializedName("total") val total: String
-) { lateinit var wallet: ToOne<Wallet> }
+)// { lateinit var wallet: ToOne<Wallet> }
