@@ -2,6 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+
+/*ObjectBox browser dependencies must be set before applying ObjectBox plugin so it does not add
+ objectbox-android (would result in two conflicting versions, e.g. "Duplicate files copied in APK
+  lib/armeabi-v7a/libobjectbox.so").*/
+dependencies {
+    debugImplementation "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion"
+    releaseImplementation "io.objectbox:objectbox-android:$objectboxVersion"
+}
+
 apply plugin: 'io.objectbox'
 
 kapt {
@@ -20,7 +29,7 @@ project.android.buildTypes.all { buildType ->
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.omnigate.wallet"
         minSdkVersion 21
@@ -65,7 +74,7 @@ dependencies {
 
     implementation "android.arch.lifecycle:runtime:$android_lifecycle_version"
     implementation "android.arch.lifecycle:extensions:$android_lifecycle_version"
-    annotationProcessor "android.arch.lifecycle:compiler:$android_lifecycle_version"
+    kapt "android.arch.lifecycle:compiler:$android_lifecycle_version"
 
     implementation 'io.reactivex.rxjava2:rxjava:2.1.2'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -76,8 +85,6 @@ dependencies {
     implementation 'io.objectbox:objectbox-rxjava:0.9.8'
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 
-
-    implementation "io.objectbox:objectbox-android:$objectboxVersion"
     implementation "io.objectbox:objectbox-kotlin:$objectboxVersion"
 
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
@@ -86,7 +93,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     implementation 'net.openid:appauth:0.2.0'
-
 
 /*    implementation 'com.github.bumptech.glide:glide:4.1.1'
     kapt 'com.github.bumptech.glide:compiler:4.1.1'

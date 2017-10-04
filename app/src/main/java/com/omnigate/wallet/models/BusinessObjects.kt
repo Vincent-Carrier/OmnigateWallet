@@ -22,4 +22,4 @@ data class Balance(
 		@SerializedName("available") val available: String,
 		@SerializedName("held") val held: String,
 		@SerializedName("total") val total: String
-)// { lateinit var wallet: ToOne<Wallet> }
+)

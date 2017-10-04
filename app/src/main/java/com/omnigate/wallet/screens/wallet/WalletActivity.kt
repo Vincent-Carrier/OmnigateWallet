@@ -15,7 +15,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_wallet.*
 import kotlinx.android.synthetic.main.balance_list_item.view.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.info
 
 class WalletActivity : AppCompatActivity(), AnkoLogger {
 
@@ -36,7 +36,7 @@ class WalletActivity : AppCompatActivity(), AnkoLogger {
 		vm.getWallet()
 				.bindToLifecycle(this)
 				.subscribeBy(
-						onSuccess = { if (it.balances.isEmpty()) toast("Your wallet is empty!") }
+						onSuccess = { if (it.balances.isEmpty()) info("Your wallet is empty!") }
 				)
 	}
 }

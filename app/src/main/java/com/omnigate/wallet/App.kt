@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import com.omnigate.wallet.models.MyObjectBox
 import io.objectbox.BoxStore
+import io.objectbox.android.AndroidObjectBrowser
 import io.reactivex.plugins.RxJavaPlugins
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.warn
@@ -20,11 +21,14 @@ class App : Application(), AnkoLogger {
 		app = this
 	}
 
-	val boxStore: BoxStore by lazy { MyObjectBox.builder().androidContext(this).build() }
+	lateinit var boxStore: BoxStore
+		private set
 
 	override fun onCreate() {
 		super.onCreate()
 		RxJavaPlugins.setErrorHandler { warn(it.message, it) }
+		boxStore = MyObjectBox.builder().androidContext(this).build()
+		if (BuildConfig.DEBUG) AndroidObjectBrowser(boxStore).start(this)
 	}
 }
 
