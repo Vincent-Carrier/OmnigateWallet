@@ -9,7 +9,7 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.EpoxyModelClass
 import com.omnigate.wallet.R
-import com.omnigate.wallet.data.AuthManager
+import com.omnigate.wallet.screens.loginCheck
 import com.trello.rxlifecycle2.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_wallet.*
@@ -29,14 +29,15 @@ class WalletActivity : AppCompatActivity(), AnkoLogger {
 
 	override fun onStart() {
 		super.onStart()
-		if (AuthManager.isLoggedIn())
-			vm.getWallet()
+		loginCheck(this) { getWallet() }
+	}
+
+	private fun getWallet() {
+		vm.getWallet()
 				.bindToLifecycle(this)
 				.subscribeBy(
 						onSuccess = { if (it.balances.isEmpty()) toast("Your wallet is empty!") }
 				)
-		else AuthManager.startLogin(this)
-
 	}
 }
 

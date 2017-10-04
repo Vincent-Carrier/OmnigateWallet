@@ -7,7 +7,6 @@ import com.omnigate.wallet.models.Balance
 import com.omnigate.wallet.models.Wallet
 import io.reactivex.Single
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 
 class WalletViewModel : ViewModel(), AnkoLogger {
 
@@ -20,7 +19,6 @@ class WalletViewModel : ViewModel(), AnkoLogger {
 		return WalletsRepository.getWallets()
 				.map { it.first() }
 				.doOnSuccess {
-					info(it)
 					controller.setData(it.balances)
 				}
 	}
